@@ -1,2 +1,2 @@
-name             'nodejs'
+name             'redis'
 depends 'apt'

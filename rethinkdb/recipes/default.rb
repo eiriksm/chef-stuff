@@ -24,4 +24,4 @@ case node['platform_family']
 end
 
 include_recipe "rethinkdb::install_from_#{node['rethinkdb']['install_method']}"
-include_recipe "rethinkdb::start"
+#include_recipe "rethinkdb::start"
