@@ -1,7 +1,7 @@
 #
 # Author:: Vitaly Aminev (v@aminev.me)
 # Cookbook Name:: rethinkdb
-# Recipe:: default
+# Recipe:: install_from_package
 #
 # License:: Apache License, Version 2.0
 #
@@ -19,9 +19,29 @@
 #
 
 case node['platform_family']
-  when "debian"
-   include_recipe "apt"
+  when 'debian'
+    repo = 'http://ppa.launchpad.net/chris-lea/node.js/ubuntu'
+    packages = %w{ nodejs }
+
+    apt_repository 'nodejs' do
+      uri repo
+      distribution node['lsb']['codename']
+      components ['main']
+      keyserver "keyserver.ubuntu.com"
+      key "C7917B12"
+      action :add
+    end
+
+  else
+    Chef::Log.error "There are no nodejs packages for this platform; please use the source or binary method to install node"
+    return
 end
 
-include_recipe "rethinkdb::install_from_#{node['rethinkdb']['install_method']}"
-include_recipe "rethinkdb::start"
+packages.each do |pkg|
+
+  package "#{pkg}" do
+    version "'#{node[pkg]['version']}*'"
+    action :install
+  end
+
+end

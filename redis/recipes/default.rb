@@ -23,5 +23,4 @@ case node['platform_family']
    include_recipe "apt"
 end
 
-include_recipe "rethinkdb::install_from_#{node['rethinkdb']['install_method']}"
-include_recipe "rethinkdb::start"
+include_recipe "redis::install_from_#{node['rethinkdb']['install_method']}"
