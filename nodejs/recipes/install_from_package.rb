@@ -37,11 +37,4 @@ case node['platform_family']
     return
 end
 
-packages.each do |pkg|
-
-  package "#{pkg}" do
-    version "'#{node[pkg]['version']}*'"
-    action :install
-  end
-
-end
+package "nodejs"
